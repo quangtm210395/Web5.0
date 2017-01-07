@@ -68,7 +68,7 @@ var update = function(){
     );
   }
   for(var i = 0; i < Nakama.bullets.length; i ++){
-    Nakama.bullets[i].position.y -= 10;
+    Nakama.bullets[i].position.y -= 30;
   }
 }
 
