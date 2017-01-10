@@ -42,12 +42,12 @@ var create = function() {
         "assets",
         "Spaceship1-Player.png"
     );
-    Nakama.game.physics.arcade.enable(Nakama.player);
+    // Nakama.game.physics.arcade.enable(Nakama.player);
 
 //  Player physics properties. Give the little guy a slight bounce.
-    player.body.bounce.y = 0.2;
-    player.body.gravity.y = 300;
-    player.body.collideWorldBounds = true;
+    // Nakama.player.body.bounce.y = 0.2;
+    // Nakama.player.body.gravity.y = 300;
+    // Nakama.player.body.collideWorldBounds = true;
 
 //setup bullets
     Nakama.bulletTime = 0;
