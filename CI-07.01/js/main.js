@@ -1,13 +1,17 @@
 var Nakama = {};
-Nakama.configs = {};
+Nakama.configs = {
+    bulletSpeed : 700,
+    shipSpeed   : 400,
+    mapSpeed    : 7
+};
 
 
 window.onload = function() {
     Nakama.game = new Phaser.Game(640, 960, Phaser.AUTO, '', {
-        preload: preload,
-        create: create,
-        update: update,
-        render: render
+        preload : preload,
+        create  : create,
+        update  : update,
+        render  : render
     }, false, false);
 }
 
@@ -33,35 +37,38 @@ var create = function() {
     Nakama.keyboard = Nakama.game.input.keyboard;
 
     Nakama.map = Nakama.game.add.tileSprite(0, 0, 640, 960, 'background');
-    Nakama.mapSpeed = 7;
-    Nakama.playerSpeed = 10;
+
+    Nakama.bulletGroup = Nakama.game.add.physicsGroup();
+    Nakama.playerGroup = Nakama.game.add.physicsGroup();
 
     Nakama.players = [];
     Nakama.players.push(
         new ShipController(
-            Nakama.game.world.centerX - 36,
+            Nakama.game.world.centerX - 36 + 50,
             Nakama.game.world.centerY + 200,
             "Spaceship1-Player.png",
             {
-              up : Phaser.Keyboard.UP,
-              down : Phaser.Keyboard.DOWN,
-              left : Phaser.Keyboard.LEFT,
+              up    : Phaser.Keyboard.UP,
+              down  : Phaser.Keyboard.DOWN,
+              left  : Phaser.Keyboard.LEFT,
               right : Phaser.Keyboard.RIGHT,
-              fire : Phaser.Keyboard.ENTER
+              fire  : Phaser.Keyboard.ENTER,
+              cooldown : 0.15
             }
         )
     );
     Nakama.players.push(
         new ShipController(
-            Nakama.game.world.centerX - 36 - 20,
+            Nakama.game.world.centerX - 36 - 50,
             Nakama.game.world.centerY + 200,
             "Spaceship1-Partner.png",
             {
-              up : Phaser.Keyboard.W,
-              down : Phaser.Keyboard.S,
-              left : Phaser.Keyboard.A,
+              up    : Phaser.Keyboard.W,
+              down  : Phaser.Keyboard.S,
+              left  : Phaser.Keyboard.A,
               right : Phaser.Keyboard.D,
-              fire : Phaser.Keyboard.SPACEBAR
+              fire  : Phaser.Keyboard.SPACEBAR,
+              cooldown : 0.15
             }
         )
     );
@@ -72,7 +79,7 @@ var create = function() {
 // update game state each frame
 var update = function() {
     //scrolling map
-    Nakama.map.tilePosition.y += Nakama.mapSpeed;
+    Nakama.map.tilePosition.y += Nakama.configs.mapSpeed;
 
     for (var i = 0; i < Nakama.players.length; i++) {
         Nakama.players[i].update();

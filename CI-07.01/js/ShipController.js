@@ -1,43 +1,42 @@
 class ShipController {
-    constructor(x, y, spriteName, configs) {
-        this.sprite = Nakama.game.add.sprite(
+    constructor(x, y, spriteName, configs, cooldown) {
+        this.sprite = Nakama.playerGroup.create(
             x,
             y,
             "assets",
-            spriteName
+            spriteName,
+            cooldown
         );
+        this.sprite.anchor = new Phaser.Point(0.5,0.5);
+        this.sprite.body.collideWorldBounds = true;
+
         this.configs = configs;
+        this.timeSinceLastFire = 0;
         this.setupBullets();
     }
 
     update() {
+        //
         if (Nakama.keyboard.isDown(this.configs.up)) {
-            if (this.sprite.position.y >= Nakama.playerSpeed)
-                this.sprite.position.y -= Nakama.playerSpeed;
-            else
-                this.sprite.position.y = 0;
+            this.sprite.body.velocity.y = -Nakama.configs.shipSpeed;
         }
-        if (Nakama.keyboard.isDown(this.configs.down)) {
-            if (this.sprite.position.y <= (950 - 78))
-                this.sprite.position.y += Nakama.playerSpeed;
-            else
-                this.sprite.position.y = 960 - 78;
-        }
+        else if (Nakama.keyboard.isDown(this.configs.down)) {
+            this.sprite.body.velocity.y = Nakama.configs.shipSpeed;
+        } else this.sprite.body.velocity.y = 0;
+        //
         if (Nakama.keyboard.isDown(this.configs.left)) {
-            this.sprite.animations.add()
-            if (this.sprite.position.x >= Nakama.playerSpeed)
-                this.sprite.position.x -= Nakama.playerSpeed;
-            else
-                this.sprite.position.x = 0;
+            this.sprite.body.velocity.x = -Nakama.configs.shipSpeed;
         }
-        if (Nakama.keyboard.isDown(this.configs.right)) {
-            if (this.sprite.position.x <= (630 - 78))
-                this.sprite.position.x += Nakama.playerSpeed;
-            else
-                this.sprite.position.x = 640 - 78;
-        }
-        if (Nakama.keyboard.isDown(this.configs.fire)) {
-            this.fire();
+        else if (Nakama.keyboard.isDown(this.configs.right)) {
+            this.sprite.body.velocity.x = Nakama.configs.shipSpeed;
+        } else this.sprite.body.velocity.x = 0;
+
+        //fire
+        this.timeSinceLastFire += Nakama.game.time.physicsElapsed;
+        if (Nakama.keyboard.isDown(this.configs.fire)
+            && this.timeSinceLastFire > this.configs.cooldown) {
+            this.fire2();
+            this.timeSinceLastFire = 0;
         }
     }
 
@@ -53,12 +52,40 @@ class ShipController {
         this.sprite.bullets.setAll('checkWorldBounds', true);
     }
 
+    fire2(){
+        new BulletController(
+          this.sprite.position,
+          "BulletType1.png",
+          new Phaser.Point(0,-1)
+        );
+        new BulletController(
+          this.sprite.position,
+          "BulletType1.png",
+          new Phaser.Point(2,-5)
+        );
+        new BulletController(
+          this.sprite.position,
+          "BulletType1.png",
+          new Phaser.Point(-2,-5)
+        );
+        new BulletController(
+          this.sprite.position,
+          "BulletType1.png",
+          new Phaser.Point(2,-3)
+        );
+        new BulletController(
+          this.sprite.position,
+          "BulletType1.png",
+          new Phaser.Point(-2,-3)
+        );
+    }
+
     fire() {
         if (Nakama.game.time.now > this.sprite.bulletTime) {
 
             var bullet = this.sprite.bullets.getFirstExists(false);
             if (bullet) {
-                bullet.reset(this.sprite.position.x + 39, this.sprite.position.y);
+                bullet.reset(this.sprite.position.x +20, this.sprite.position.y + 20);
                 bullet.body.velocity.y = -700;
                 this.sprite.bulletTime = Nakama.game.time.now + 100;
             }
