@@ -34,85 +34,52 @@ var create = function() {
 
     Nakama.map = Nakama.game.add.tileSprite(0, 0, 640, 960, 'background');
     Nakama.mapSpeed = 7;
-    Nakama.playerSpeed = 8;
+    Nakama.playerSpeed = 10;
 
-    Nakama.player = Nakama.game.add.sprite(
-        Nakama.game.world.centerX - 36,
-        Nakama.game.world.centerY + 200,
-        "assets",
-        "Spaceship1-Player.png"
+    Nakama.players = [];
+    Nakama.players.push(
+        new ShipController(
+            Nakama.game.world.centerX - 36,
+            Nakama.game.world.centerY + 200,
+            "Spaceship1-Player.png",
+            {
+              up : Phaser.Keyboard.UP,
+              down : Phaser.Keyboard.DOWN,
+              left : Phaser.Keyboard.LEFT,
+              right : Phaser.Keyboard.RIGHT,
+              fire : Phaser.Keyboard.ENTER
+            }
+        )
     );
-    // Nakama.game.physics.arcade.enable(Nakama.player);
-
-//  Player physics properties. Give the little guy a slight bounce.
-    // Nakama.player.body.bounce.y = 0.2;
-    // Nakama.player.body.gravity.y = 300;
-    // Nakama.player.body.collideWorldBounds = true;
-
-//setup bullets
-    Nakama.bulletTime = 0;
-    Nakama.bullets = Nakama.game.add.group();
-    Nakama.bullets.enableBody = true;
-    Nakama.bullets.physicsBodyType = Phaser.Physics.ARCADE;
-    Nakama.bullets.createMultiple(50, 'assets', "BulletType1.png");
-    Nakama.bullets.setAll('anchor.x', 0.5);
-    Nakama.bullets.setAll('anchor.y', 1);
-    Nakama.bullets.setAll('outOfBoundsKill', true);
-    Nakama.bullets.setAll('checkWorldBounds', true);
+    Nakama.players.push(
+        new ShipController(
+            Nakama.game.world.centerX - 36 - 20,
+            Nakama.game.world.centerY + 200,
+            "Spaceship1-Partner.png",
+            {
+              up : Phaser.Keyboard.W,
+              down : Phaser.Keyboard.S,
+              left : Phaser.Keyboard.A,
+              right : Phaser.Keyboard.D,
+              fire : Phaser.Keyboard.SPACEBAR
+            }
+        )
+    );
 
 }
+
 
 // update game state each frame
 var update = function() {
-
-
-  //scrolling map
+    //scrolling map
     Nakama.map.tilePosition.y += Nakama.mapSpeed;
 
-    if (Nakama.keyboard.isDown(Phaser.Keyboard.UP)) {
-        if (Nakama.player.position.y >= Nakama.playerSpeed)
-            Nakama.player.position.y -= Nakama.playerSpeed;
-        else
-            Nakama.player.position.y = 0;
+    for (var i = 0; i < Nakama.players.length; i++) {
+        Nakama.players[i].update();
     }
-    if (Nakama.keyboard.isDown(Phaser.Keyboard.DOWN)) {
-        if (Nakama.player.position.y <= (950 - 78))
-            Nakama.player.position.y += Nakama.playerSpeed;
-        else
-            Nakama.player.position.y = 960 - 78;
-    }
-    if (Nakama.keyboard.isDown(Phaser.Keyboard.LEFT)) {
-      Nakama.player.animations.add()
-        if (Nakama.player.position.x >= Nakama.playerSpeed)
-            Nakama.player.position.x -= Nakama.playerSpeed;
-        else
-            Nakama.player.position.x = 0;
-    }
-    if (Nakama.keyboard.isDown(Phaser.Keyboard.RIGHT)) {
-        if (Nakama.player.position.x <= (630 - 78))
-            Nakama.player.position.x += Nakama.playerSpeed;
-        else
-            Nakama.player.position.x = 640 - 78;
-    }
-    if (Nakama.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {
-        fire();
-    }
-
 
 }
 
-function fire() {
-
-    if (Nakama.game.time.now > Nakama.bulletTime) {
-
-        bullet = Nakama.bullets.getFirstExists(false);
-        if (bullet) {
-            bullet.reset(Nakama.player.position.x + 39 , Nakama.player.position.y);
-            bullet.body.velocity.y = -700;
-            Nakama.bulletTime = Nakama.game.time.now + 100;
-        }
-    }
-}
 
 // before camera render (mostly for debug)
 var render = function() {}
