@@ -55,7 +55,7 @@ var create = function() {
                 left: Phaser.Keyboard.LEFT,
                 right: Phaser.Keyboard.RIGHT,
                 fire: Phaser.Keyboard.ENTER,
-                cooldown: 0.15
+                cooldown: 0.25
             }
         )
     );
@@ -81,7 +81,7 @@ var create = function() {
             Nakama.game.world.centerX - 25 - 50,
             Nakama.game.world.centerY - 350,
             "EnemyType1.png", {
-                cooldown: 0.3,
+                cooldown: 0.4,
                 enemySpeed: 300,
                 bulletSpeed: 600,
                 moveLeft: true
@@ -93,7 +93,7 @@ var create = function() {
             Nakama.game.world.centerX - 25 + 50,
             Nakama.game.world.centerY - 400,
             "EnemyType1.png", {
-                cooldown: 0.3,
+                cooldown: 0.4,
                 enemySpeed: 300,
                 bulletSpeed: 600,
                 moveLeft: false
