@@ -52,12 +52,17 @@ var create = function() {
             Nakama.game.world.centerX - 36 + 50,
             Nakama.game.world.centerY + 200,
             "Spaceship1-Player.png", {
+                bulletSpriteName  : "BulletType1.png",
                 up: Phaser.Keyboard.UP,
                 down: Phaser.Keyboard.DOWN,
                 left: Phaser.Keyboard.LEFT,
                 right: Phaser.Keyboard.RIGHT,
                 fire: Phaser.Keyboard.ENTER,
-                cooldown: 0.25
+                cooldown: 0.25,
+                health : 10,
+                frameNameDefault : "Spaceship1-Player.png",
+                frameNameLeft : "Spaceship1Left-Player.png",
+                frameNameRight : "Spaceship1Right-Player.png"
             }
         )
     );
@@ -66,12 +71,17 @@ var create = function() {
             Nakama.game.world.centerX - 36 - 50,
             Nakama.game.world.centerY + 200,
             "Spaceship1-Partner.png", {
+                bulletSpriteName  : "BulletType2.png",
                 up: Phaser.Keyboard.W,
                 down: Phaser.Keyboard.S,
                 left: Phaser.Keyboard.A,
                 right: Phaser.Keyboard.D,
                 fire: Phaser.Keyboard.SPACEBAR,
-                cooldown: 0.15
+                cooldown: 0.15,
+                health : 10,
+                frameNameDefault : "Spaceship1-Partner.png",
+                frameNameLeft : "Spaceship1Left-Partner.png",
+                frameNameRight : "Spaceship1Right-Partner.png"
             }
         )
     );
@@ -82,10 +92,11 @@ var create = function() {
         new EnemyController(
             Nakama.game.world.centerX - 25 - 50,
             Nakama.game.world.centerY - 350,
-            "EnemyType1.png", {
-                cooldown: 0.4,
+            "EnemyType2.png", {
+                bulletSpriteName  : "EnemyBulletType1.png",
+                cooldown: 0.6,
                 enemySpeed: 300,
-                bulletSpeed: 600,
+                bulletSpeed: 500,
                 moveLeft: true,
                 minX : 100,
                 maxX : Nakama.configs.gameWidth - 100,
@@ -99,9 +110,10 @@ var create = function() {
             Nakama.game.world.centerX - 25 + 50,
             Nakama.game.world.centerY - 400,
             "EnemyType1.png", {
+                bulletSpriteName  : "EnemyBulletType2.png",
                 cooldown: 0.5,
                 enemySpeed: 300,
-                bulletSpeed: 600,
+                bulletSpeed: 500,
                 moveLeft: false,
                 minX : 100,
                 maxX : Nakama.configs.gameWidth - 100,
@@ -133,19 +145,19 @@ var update = function() {
 
 }
 
-var bulletPlayerCollider = function(bullet, player) {
-    bullet.kill();
-    player.kill();
+var bulletPlayerCollider = function(bulletSprite, playerSprite) {
+    bulletSprite.kill();
+    playerSprite.damage(bulletSprite.bulletStrength);
 }
 
-var bulletEnemyCollider = function(bullet, enemy) {
-    bullet.kill();
-    enemy.kill();
+var bulletEnemyCollider = function(bulletSprite, enemySprite) {
+    bulletSprite.kill();
+    enemySprite.damage(bulletSprite.bulletStrength);
 }
 
-var playerEnemyCollider = function(player, enemy) {
-    player.kill();
-    enemy.kill();
+var playerEnemyCollider = function(playerSprite, enemySprite) {
+    playerSprite.kill();
+    enemySprite.kill();
 }
 
 

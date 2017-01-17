@@ -53,10 +53,11 @@ class EnemyController {
     fire() {
         new BulletController(
             this.sprite.position,
-            "EnemyBulletType1.png",
+            this.configs.bulletSpriteName,
             new Phaser.Point(0, 1), {
                 bulletSpeed: this.configs.bulletSpeed,
-                bulletGroup: Nakama.enemyBulletGroup
+                bulletGroup: Nakama.enemyBulletGroup,
+                bulletStrength : 2
             }
         );
     }
