@@ -10,22 +10,34 @@ class EnemyController {
         this.sprite.body.collideWorldBounds = true;
 
         this.configs = configs;
+        this.configs.centerX = (this.configs.minX + this.configs.maxX)/2;
+        this.configs.movementDistance = this.configs.maxX - this.configs.minX;
         this.timeSinceLastFire = 0;
+        this.timeSinceSpawn = 0;
     }
 
     update() {
-        if (this.configs.moveLeft) {
-            this.sprite.body.velocity.x = -this.configs.enemySpeed;
-        } else {
-            this.sprite.body.velocity.x = this.configs.enemySpeed;
-        }
 
-        if (this.sprite.body.position.x == 0) {
-            this.configs.moveLeft = false;
-        }
-        if (this.sprite.body.position.x == 590) {
-            this.configs.moveLeft = true;
-        }
+      this.timeSinceSpawn += Nakama.game.time.physicsElapsed;
+      this.sprite.position.x =
+        this.configs.centerX
+        + (this.configs.movementDistance)
+        * Math.sin(
+          (this.timeSinceSpawn / this.configs.tweenTime) *Math.PI * 2 )
+           / 2;
+
+        // if (this.configs.moveLeft) {
+        //     this.sprite.body.velocity.x = -this.configs.enemySpeed;
+        // } else {
+        //     this.sprite.body.velocity.x = this.configs.enemySpeed;
+        // }
+        //
+        // if (this.sprite.body.position.x == 0) {
+        //     this.configs.moveLeft = false;
+        // }
+        // if (this.sprite.body.position.x == Nakama.configs.gameWidth - 50) {
+        //     this.configs.moveLeft = true;
+        // }
 
         //fire
         if (this.sprite.alive) {

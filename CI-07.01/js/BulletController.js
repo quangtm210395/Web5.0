@@ -16,5 +16,6 @@ class BulletController {
           direction.x / direction.y
         ) * 180 / Math.PI;
         this.sprite.body.velocity = direction.setMagnitude(this.configs.bulletSpeed);
+
     }
 }

@@ -2,7 +2,9 @@ var Nakama = {};
 Nakama.configs = {
     bulletSpeed: 700,
     shipSpeed: 500,
-    mapSpeed: 5
+    mapSpeed: 5,
+    gameWidth: 640,
+    gameHeight: 960
 };
 
 
@@ -84,7 +86,10 @@ var create = function() {
                 cooldown: 0.4,
                 enemySpeed: 300,
                 bulletSpeed: 600,
-                moveLeft: true
+                moveLeft: true,
+                minX : 100,
+                maxX : Nakama.configs.gameWidth - 100,
+                tweenTime : 3
             }
         )
     );
@@ -93,10 +98,13 @@ var create = function() {
             Nakama.game.world.centerX - 25 + 50,
             Nakama.game.world.centerY - 400,
             "EnemyType1.png", {
-                cooldown: 0.4,
+                cooldown: 0.5,
                 enemySpeed: 300,
                 bulletSpeed: 600,
-                moveLeft: false
+                moveLeft: false,
+                minX : 100,
+                maxX : Nakama.configs.gameWidth - 100,
+                tweenTime : 4
             }
         )
     );
