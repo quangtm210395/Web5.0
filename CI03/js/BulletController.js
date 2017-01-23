@@ -1,6 +1,6 @@
 class BulletController {
-    constructor(position, spriteName, direction, configs) {
-        this.sprite = configs.bulletGroup.create(
+    constructor(position, spriteName, direction, physicsGroup, configs) {
+        this.sprite = physicsGroup.create(
             position.x,
             position.y,
             "assets",

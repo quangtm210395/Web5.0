@@ -24,14 +24,14 @@ class ShipController {
         } else this.sprite.body.velocity.y = 0;
         //
         if (Nakama.keyboard.isDown(this.configs.left)) {
-        this.sprite.frameName = this.configs.frameNameLeft;
+            this.sprite.frameName = this.configs.frameNameLeft;
             this.sprite.body.velocity.x = -Nakama.configs.shipSpeed;
         } else if (Nakama.keyboard.isDown(this.configs.right)) {
-        this.sprite.frameName = this.configs.frameNameRight;
+            this.sprite.frameName = this.configs.frameNameRight;
             this.sprite.body.velocity.x = Nakama.configs.shipSpeed;
         } else {
-          this.sprite.frameName = this.configs.frameNameDefault;
-          this.sprite.body.velocity.x = 0;
+            this.sprite.frameName = this.configs.frameNameDefault;
+            this.sprite.body.velocity.x = 0;
         }
 
         //fire
@@ -59,62 +59,35 @@ class ShipController {
     }
 
     fire2() {
-        new BulletController(
-            this.sprite.position,
-            this.configs.bulletSpriteName,
-            new Phaser.Point(0, -1), {
-                bulletSpeed: 700,
-                bulletGroup: Nakama.shipBulletGroup,
-                bulletStrength : 1
-            }
-        );
-        new BulletController(
-            this.sprite.position,
-            this.configs.bulletSpriteName,
-            new Phaser.Point(1, -2), {
-                bulletSpeed: 700,
-                bulletGroup: Nakama.shipBulletGroup,
-                bulletStrength : 1
-            }
-        );
-        new BulletController(
-            this.sprite.position,
-            this.configs.bulletSpriteName,
-            new Phaser.Point(-1, -2), {
-                bulletSpeed: 700,
-                bulletGroup: Nakama.shipBulletGroup,
-                bulletStrength : 1
-            }
-        );
-        new BulletController(
-            this.sprite.position,
-            this.configs.bulletSpriteName,
-            new Phaser.Point(1, -3), {
-                bulletSpeed: 700,
-                bulletGroup: Nakama.shipBulletGroup,
-                bulletStrength : 1
-            }
-        );
-        new BulletController(
-            this.sprite.position,
-            this.configs.bulletSpriteName,
-            new Phaser.Point(-1, -3), {
-                bulletSpeed: 700,
-                bulletGroup: Nakama.shipBulletGroup,
-                bulletStrength : 1
-            }
-        );
+        if (!this.sprite.alive) return;
+
+        this.initPlayerBulletType1(new Phaser.Point(1, -2.5));
+        this.initPlayerBulletType1(new Phaser.Point(0, -1));
+        this.initPlayerBulletType1(new Phaser.Point(1, -5));
+        this.initPlayerBulletType1(new Phaser.Point(-1, -5));
+        this.initPlayerBulletType1(new Phaser.Point(-1, -2.5));
+
+
     }
 
-    fire() {
-        if (Nakama.game.time.now > this.sprite.bulletTime) {
-
-            var bullet = this.sprite.bullets.getFirstExists(false);
-            if (bullet) {
-                bullet.reset(this.sprite.position.x + 20, this.sprite.position.y + 20);
-                bullet.body.velocity.y = -700;
-                this.sprite.bulletTime = Nakama.game.time.now + 100;
-            }
-        }
+    initPlayerBulletType1(direction) {
+        new PlayerBulletType1Controller(
+            this.sprite.position,
+            direction, {
+                bulletSpeed: 700,
+                bulletStrength: 1
+            });
     }
+
+    // fire() {
+    //     if (Nakama.game.time.now > this.sprite.bulletTime) {
+    //
+    //         var bullet = this.sprite.bullets.getFirstExists(false);
+    //         if (bullet) {
+    //             bullet.reset(this.sprite.position.x + 20, this.sprite.position.y + 20);
+    //             bullet.body.velocity.y = -700;
+    //             this.sprite.bulletTime = Nakama.game.time.now + 100;
+    //         }
+    //     }
+    // }
 }

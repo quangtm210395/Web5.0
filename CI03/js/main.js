@@ -40,7 +40,7 @@ var create = function() {
 
     Nakama.map = Nakama.game.add.tileSprite(0, 0, 640, 960, 'background');
 
-    Nakama.shipBulletGroup = Nakama.game.add.physicsGroup();
+    Nakama.playerBulletGroup = Nakama.game.add.physicsGroup();
     Nakama.enemyBulletGroup = Nakama.game.add.physicsGroup();
     Nakama.playerGroup = Nakama.game.add.physicsGroup();
     Nakama.enemyGroup = Nakama.game.add.physicsGroup();
@@ -48,51 +48,43 @@ var create = function() {
     // players
     Nakama.players = [];
     Nakama.players.push(
-        new ShipController(
+        new PlayerType1ShipController(
             Nakama.game.world.centerX - 36 + 50,
             Nakama.game.world.centerY + 200,
-            "Spaceship1-Player.png", {
-                bulletSpriteName  : "BulletType1.png",
+             {
                 up: Phaser.Keyboard.UP,
                 down: Phaser.Keyboard.DOWN,
                 left: Phaser.Keyboard.LEFT,
                 right: Phaser.Keyboard.RIGHT,
                 fire: Phaser.Keyboard.ENTER,
-                cooldown: 0.25,
-                health : 10,
-                frameNameDefault : "Spaceship1-Player.png",
-                frameNameLeft : "Spaceship1Left-Player.png",
-                frameNameRight : "Spaceship1Right-Player.png"
+                cooldown: 0.1,
+                health : 10
             }
         )
     );
     Nakama.players.push(
-        new ShipController(
+        new PartnerType1ShipController(
             Nakama.game.world.centerX - 36 - 50,
             Nakama.game.world.centerY + 200,
-            "Spaceship1-Partner.png", {
-                bulletSpriteName  : "BulletType2.png",
-                up: Phaser.Keyboard.W,
-                down: Phaser.Keyboard.S,
-                left: Phaser.Keyboard.A,
-                right: Phaser.Keyboard.D,
-                fire: Phaser.Keyboard.SPACEBAR,
-                cooldown: 0.15,
-                health : 10,
-                frameNameDefault : "Spaceship1-Partner.png",
-                frameNameLeft : "Spaceship1Left-Partner.png",
-                frameNameRight : "Spaceship1Right-Partner.png"
-            }
+            {
+               up: Phaser.Keyboard.W,
+               down: Phaser.Keyboard.S,
+               left: Phaser.Keyboard.A,
+               right: Phaser.Keyboard.D,
+               fire: Phaser.Keyboard.SPACEBAR,
+               cooldown: 0.1,
+               health : 10
+           }
         )
     );
 
     //enemies
     Nakama.enemies = [];
     Nakama.enemies.push(
-        new EnemyController(
+        new EnemyType2Controller(
             Nakama.game.world.centerX - 25 - 50,
             Nakama.game.world.centerY - 350,
-            "EnemyType2.png", {
+             {
                 bulletSpriteName  : "EnemyBulletType1.png",
                 cooldown: 0.6,
                 enemySpeed: 300,
@@ -106,10 +98,10 @@ var create = function() {
         )
     );
     Nakama.enemies.push(
-        new EnemyController(
+        new EnemyType1Controller(
             Nakama.game.world.centerX - 25 + 50,
             Nakama.game.world.centerY - 400,
-            "EnemyType1.png", {
+             {
                 bulletSpriteName  : "EnemyBulletType2.png",
                 cooldown: 0.5,
                 enemySpeed: 300,
@@ -132,7 +124,7 @@ var update = function() {
     Nakama.map.tilePosition.y += Nakama.configs.mapSpeed;
 
     Nakama.game.physics.arcade.overlap(Nakama.enemyBulletGroup, Nakama.playerGroup, bulletPlayerCollider, null, this);
-    Nakama.game.physics.arcade.overlap(Nakama.shipBulletGroup, Nakama.enemyGroup, bulletEnemyCollider, null, this);
+    Nakama.game.physics.arcade.overlap(Nakama.playerBulletGroup, Nakama.enemyGroup, bulletEnemyCollider, null, this);
     Nakama.game.physics.arcade.overlap(Nakama.playerGroup, Nakama.enemyGroup, playerEnemyCollider, null, this);
 
     for (var i = 0; i < Nakama.players.length; i++) {
