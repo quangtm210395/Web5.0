@@ -44,6 +44,8 @@ var create = function() {
     Nakama.enemyBulletGroup = Nakama.game.add.physicsGroup();
     Nakama.playerGroup = Nakama.game.add.physicsGroup();
     Nakama.enemyGroup = Nakama.game.add.physicsGroup();
+    Nakama.missileGroup = Nakama.game.add.physicsGroup();
+
 
     // players
     Nakama.players = [];
@@ -56,7 +58,9 @@ var create = function() {
                 down: Phaser.Keyboard.DOWN,
                 left: Phaser.Keyboard.LEFT,
                 right: Phaser.Keyboard.RIGHT,
-                fire: Phaser.Keyboard.ENTER,
+                fire: Phaser.Keyboard.SPACEBAR,
+                m : Phaser.Keyboard.M,
+                missileCooldown : 0.3,
                 cooldown: 0.1,
                 health : 10
             }
@@ -71,7 +75,7 @@ var create = function() {
                down: Phaser.Keyboard.S,
                left: Phaser.Keyboard.A,
                right: Phaser.Keyboard.D,
-               fire: Phaser.Keyboard.SPACEBAR,
+               fire: Phaser.Keyboard.ENTER,
                cooldown: 0.1,
                health : 10
            }
@@ -89,7 +93,6 @@ var create = function() {
                 cooldown: 0.6,
                 enemySpeed: 300,
                 bulletSpeed: 500,
-                moveLeft: true,
                 minX : 100,
                 maxX : Nakama.configs.gameWidth - 100,
                 tweenTime : 3,
@@ -106,7 +109,6 @@ var create = function() {
                 cooldown: 0.5,
                 enemySpeed: 300,
                 bulletSpeed: 500,
-                moveLeft: false,
                 minX : 100,
                 maxX : Nakama.configs.gameWidth - 100,
                 tweenTime : 4,
@@ -134,6 +136,8 @@ var update = function() {
     for (var i = 0; i < Nakama.enemies.length; i++) {
         Nakama.enemies[i].update();
     }
+
+
 
 }
 

@@ -12,6 +12,7 @@ class ShipController {
 
         this.configs = configs;
         this.timeSinceLastFire = 0;
+        this.timeSinceLastMissileFire = 0;
         // this.setupBullets();
     }
 
@@ -35,13 +36,19 @@ class ShipController {
         }
 
         //fire
-        if (this.sprite.alive) {
-            this.timeSinceLastFire += Nakama.game.time.physicsElapsed;
-            if (Nakama.keyboard.isDown(this.configs.fire) &&
-                this.timeSinceLastFire > this.configs.cooldown) {
-                this.fire2();
-                this.timeSinceLastFire = 0;
-            }
+        this.timeSinceLastFire += Nakama.game.time.physicsElapsed;
+        if (Nakama.keyboard.isDown(this.configs.fire) &&
+            this.timeSinceLastFire > this.configs.cooldown) {
+            this.fire2();
+            this.timeSinceLastFire = 0;
+        }
+
+        //fireMissile
+        this.timeSinceLastMissileFire += Nakama.game.time.physicsElapsed;
+        if (Nakama.keyboard.isDown(this.configs.m) &&
+            this.timeSinceLastMissileFire > this.configs.missileCooldown) {
+            this.fireMissile();
+            this.timeSinceLastMissileFire = 0;
         }
 
     }
@@ -58,6 +65,12 @@ class ShipController {
         this.sprite.bullets.setAll('checkWorldBounds', true);
     }
 
+    fireMissile(){
+        if (!this.sprite.alive) return;
+
+        this.initMissileBullet();
+    }
+
     fire2() {
         if (!this.sprite.alive) return;
 
@@ -68,6 +81,17 @@ class ShipController {
         this.initPlayerBulletType1(new Phaser.Point(-1, -2.5));
 
 
+    }
+
+    initMissileBullet(){
+        new MissileBulletController(
+            this.sprite.position,
+            Nakama.enemies,
+            {
+              bulletSpeed: 500,
+              bulletStrength: 3
+            }
+        );
     }
 
     initPlayerBulletType1(direction) {
