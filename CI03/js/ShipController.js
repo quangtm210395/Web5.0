@@ -39,7 +39,7 @@ class ShipController {
         this.timeSinceLastFire += Nakama.game.time.physicsElapsed;
         if (Nakama.keyboard.isDown(this.configs.fire) &&
             this.timeSinceLastFire > this.configs.cooldown) {
-            this.fire2();
+            this.fire();
             this.timeSinceLastFire = 0;
         }
 
@@ -53,25 +53,24 @@ class ShipController {
 
     }
 
-    setupBullets() {
-        this.sprite.bulletTime = 0;
-        this.sprite.bullets = Nakama.game.add.group();
-        this.sprite.bullets.enableBody = true;
-        this.sprite.bullets.physicsBodyType = Phaser.Physics.ARCADE;
-        this.sprite.bullets.createMultiple(50, 'assets', "BulletType1.png");
-        this.sprite.bullets.setAll('anchor.x', 0.5);
-        this.sprite.bullets.setAll('anchor.y', 1);
-        this.sprite.bullets.setAll('outOfBoundsKill', true);
-        this.sprite.bullets.setAll('checkWorldBounds', true);
-    }
-
-    fireMissile(){
+    fireMissile() {
         if (!this.sprite.alive) return;
 
         this.initMissileBullet();
     }
 
-    fire2() {
+    initMissileBullet() {
+      Nakama.missiles.push(
+        new MissileBulletController(
+            this.sprite.position,
+            Nakama.enemies, {
+                bulletSpeed: 500,
+                bulletStrength: 3
+            }
+        ));
+    }
+
+    fire() {
         if (!this.sprite.alive) return;
 
         this.initPlayerBulletType1(new Phaser.Point(1, -2.5));
@@ -81,17 +80,6 @@ class ShipController {
         this.initPlayerBulletType1(new Phaser.Point(-1, -2.5));
 
 
-    }
-
-    initMissileBullet(){
-        new MissileBulletController(
-            this.sprite.position,
-            Nakama.enemies,
-            {
-              bulletSpeed: 500,
-              bulletStrength: 3
-            }
-        );
     }
 
     initPlayerBulletType1(direction) {
@@ -113,5 +101,16 @@ class ShipController {
     //             this.sprite.bulletTime = Nakama.game.time.now + 100;
     //         }
     //     }
+    // }
+    // setupBullets() {
+    //     this.sprite.bulletTime = 0;
+    //     this.sprite.bullets = Nakama.game.add.group();
+    //     this.sprite.bullets.enableBody = true;
+    //     this.sprite.bullets.physicsBodyType = Phaser.Physics.ARCADE;
+    //     this.sprite.bullets.createMultiple(50, 'assets', "BulletType1.png");
+    //     this.sprite.bullets.setAll('anchor.x', 0.5);
+    //     this.sprite.bullets.setAll('anchor.y', 1);
+    //     this.sprite.bullets.setAll('outOfBoundsKill', true);
+    //     this.sprite.bullets.setAll('checkWorldBounds', true);
     // }
 }

@@ -1,10 +1,27 @@
 var Nakama = {};
 Nakama.configs = {
     bulletSpeed: 700,
-    shipSpeed: 500,
+    shipSpeed: 700,
     mapSpeed: 5,
     gameWidth: 640,
-    gameHeight: 960
+    gameHeight: 960,
+    player1Controller : {
+       up: Phaser.Keyboard.UP,
+       down: Phaser.Keyboard.DOWN,
+       left: Phaser.Keyboard.LEFT,
+       right: Phaser.Keyboard.RIGHT,
+       fire: Phaser.Keyboard.SPACEBAR,
+       m : Phaser.Keyboard.M,
+
+   },
+   player2Controller : {
+      up: Phaser.Keyboard.W,
+      down: Phaser.Keyboard.S,
+      left: Phaser.Keyboard.A,
+      right: Phaser.Keyboard.D,
+      fire: Phaser.Keyboard.ENTER,
+      m : Phaser.Keyboard.G
+  }
 };
 
 
@@ -46,39 +63,24 @@ var create = function() {
     Nakama.enemyGroup = Nakama.game.add.physicsGroup();
     Nakama.missileGroup = Nakama.game.add.physicsGroup();
 
-
+    Nakama.missiles = [];
+    Nakama.bullets = [];
     // players
     Nakama.players = [];
     Nakama.players.push(
         new PlayerType1ShipController(
             Nakama.game.world.centerX - 36 + 50,
             Nakama.game.world.centerY + 200,
-             {
-                up: Phaser.Keyboard.UP,
-                down: Phaser.Keyboard.DOWN,
-                left: Phaser.Keyboard.LEFT,
-                right: Phaser.Keyboard.RIGHT,
-                fire: Phaser.Keyboard.SPACEBAR,
-                m : Phaser.Keyboard.M,
-                missileCooldown : 0.3,
-                cooldown: 0.1,
-                health : 10
-            }
+            "Player",
+            Nakama.configs.player1Controller
         )
     );
     Nakama.players.push(
-        new PartnerType1ShipController(
+        new PlayerType3ShipController(
             Nakama.game.world.centerX - 36 - 50,
             Nakama.game.world.centerY + 200,
-            {
-               up: Phaser.Keyboard.W,
-               down: Phaser.Keyboard.S,
-               left: Phaser.Keyboard.A,
-               right: Phaser.Keyboard.D,
-               fire: Phaser.Keyboard.ENTER,
-               cooldown: 0.1,
-               health : 10
-           }
+            "Partner",
+            Nakama.configs.player2Controller
         )
     );
 
@@ -129,14 +131,18 @@ var update = function() {
     Nakama.game.physics.arcade.overlap(Nakama.playerBulletGroup, Nakama.enemyGroup, bulletEnemyCollider, null, this);
     Nakama.game.physics.arcade.overlap(Nakama.playerGroup, Nakama.enemyGroup, playerEnemyCollider, null, this);
 
-    for (var i = 0; i < Nakama.players.length; i++) {
-        Nakama.players[i].update();
-    }
-
-    for (var i = 0; i < Nakama.enemies.length; i++) {
-        Nakama.enemies[i].update();
-    }
-
+    Nakama.players.forEach(function(player){
+      player.update();
+    });
+    Nakama.enemies.forEach(function(enemy){
+      enemy.update();
+    });
+    Nakama.missiles.forEach(function(missile){
+      missile.update();
+    });
+    Nakama.bullets.forEach(function(bullet){
+      bullet.update();
+    });
 
 
 }

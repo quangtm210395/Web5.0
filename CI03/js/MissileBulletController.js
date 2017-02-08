@@ -25,9 +25,6 @@ class MissileBulletController {
         this.TURN_RATE = 5;
         this.rotation = 0;
 
-        if (this.sprite.alive) {
-            this.update();
-        }
 
     }
 
@@ -62,12 +59,10 @@ class MissileBulletController {
             if (this.sprite.rotation != targetAngle) {
                 var delta = targetAngle - this.sprite.rotation;
 
-                console.log(enemy.sprite.frameName);
 
                 if (delta > Math.PI) delta -= Math.PI * 2;
                 if (delta < -Math.PI) delta += Math.PI * 2;
 
-                console.log(delta);
 
                 if (delta > 0) {
                     this.sprite.angle += this.TURN_RATE;
