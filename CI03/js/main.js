@@ -1,27 +1,33 @@
 var Nakama = {};
 Nakama.configs = {
-    bulletSpeed: 700,
+    bulletSpeed: 500,
+    enemyBulletStrength : 1,
     shipSpeed: 700,
     mapSpeed: 5,
     gameWidth: 640,
     gameHeight: 960,
-    player1Controller : {
-       up: Phaser.Keyboard.UP,
-       down: Phaser.Keyboard.DOWN,
-       left: Phaser.Keyboard.LEFT,
-       right: Phaser.Keyboard.RIGHT,
-       fire: Phaser.Keyboard.SPACEBAR,
-       m : Phaser.Keyboard.M,
-
-   },
-   player2Controller : {
-      up: Phaser.Keyboard.W,
-      down: Phaser.Keyboard.S,
-      left: Phaser.Keyboard.A,
-      right: Phaser.Keyboard.D,
-      fire: Phaser.Keyboard.ENTER,
-      m : Phaser.Keyboard.G
-  }
+    player1Controller: {
+        playerNumber: 1,
+        up: Phaser.Keyboard.UP,
+        down: Phaser.Keyboard.DOWN,
+        left: Phaser.Keyboard.LEFT,
+        right: Phaser.Keyboard.RIGHT,
+        fire: Phaser.Keyboard.SPACEBAR,
+        m: Phaser.Keyboard.M,
+        bulletStrength: 1,
+        health : 10
+    },
+    player2Controller: {
+        playerNumber: 2,
+        up: Phaser.Keyboard.W,
+        down: Phaser.Keyboard.S,
+        left: Phaser.Keyboard.A,
+        right: Phaser.Keyboard.D,
+        fire: Phaser.Keyboard.ENTER,
+        m: Phaser.Keyboard.G,
+        bulletStrength: 1,
+        health : 10
+    }
 };
 
 
@@ -59,9 +65,9 @@ var create = function() {
 
     Nakama.playerBulletGroup = Nakama.game.add.physicsGroup();
     Nakama.enemyBulletGroup = Nakama.game.add.physicsGroup();
+    Nakama.missileGroup = Nakama.game.add.physicsGroup();
     Nakama.playerGroup = Nakama.game.add.physicsGroup();
     Nakama.enemyGroup = Nakama.game.add.physicsGroup();
-    Nakama.missileGroup = Nakama.game.add.physicsGroup();
 
     Nakama.missiles = [];
     Nakama.bullets = [];
@@ -90,32 +96,14 @@ var create = function() {
         new EnemyType2Controller(
             Nakama.game.world.centerX - 25 - 50,
             Nakama.game.world.centerY - 350,
-             {
-                bulletSpriteName  : "EnemyBulletType1.png",
-                cooldown: 0.6,
-                enemySpeed: 300,
-                bulletSpeed: 500,
-                minX : 100,
-                maxX : Nakama.configs.gameWidth - 100,
-                tweenTime : 3,
-                health : 5
-            }
+            { }
         )
     );
     Nakama.enemies.push(
         new EnemyType1Controller(
             Nakama.game.world.centerX - 25 + 50,
             Nakama.game.world.centerY - 400,
-             {
-                bulletSpriteName  : "EnemyBulletType2.png",
-                cooldown: 0.5,
-                enemySpeed: 300,
-                bulletSpeed: 500,
-                minX : 100,
-                maxX : Nakama.configs.gameWidth - 100,
-                tweenTime : 4,
-                health : 5
-            }
+            { }
         )
     );
 
@@ -130,18 +118,19 @@ var update = function() {
     Nakama.game.physics.arcade.overlap(Nakama.enemyBulletGroup, Nakama.playerGroup, bulletPlayerCollider, null, this);
     Nakama.game.physics.arcade.overlap(Nakama.playerBulletGroup, Nakama.enemyGroup, bulletEnemyCollider, null, this);
     Nakama.game.physics.arcade.overlap(Nakama.playerGroup, Nakama.enemyGroup, playerEnemyCollider, null, this);
+    Nakama.game.physics.arcade.overlap(Nakama.missileGroup, Nakama.enemyGroup, missileEnemyCollider, null, this);
 
-    Nakama.players.forEach(function(player){
-      player.update();
+    Nakama.players.forEach(function(player) {
+        player.update();
     });
-    Nakama.enemies.forEach(function(enemy){
-      enemy.update();
+    Nakama.enemies.forEach(function(enemy) {
+        enemy.update();
     });
-    Nakama.missiles.forEach(function(missile){
-      missile.update();
+    Nakama.missiles.forEach(function(missile) {
+        missile.update();
     });
-    Nakama.bullets.forEach(function(bullet){
-      bullet.update();
+    Nakama.bullets.forEach(function(bullet) {
+        bullet.update();
     });
 
 
@@ -160,6 +149,11 @@ var bulletEnemyCollider = function(bulletSprite, enemySprite) {
 var playerEnemyCollider = function(playerSprite, enemySprite) {
     playerSprite.kill();
     enemySprite.kill();
+}
+
+var missileEnemyCollider = function(missileSprite, enemySprite) {
+    missileSprite.kill();
+    enemySprite.damage(missileSprite.bulletStrength);
 }
 
 

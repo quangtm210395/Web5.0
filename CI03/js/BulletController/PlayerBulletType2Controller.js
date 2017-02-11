@@ -1,12 +1,13 @@
 class PlayerBulletType2Controller extends BulletController{
-    constructor(position, direction, configs){
+    constructor(position, direction, playerNumber){
         super(
             position,
             "BulletType2.png",
             direction,
             Nakama.playerBulletGroup,
-            configs
+            playerNumber
         );
+        this.bulletSpeed = 700;
     }
 
 }

@@ -13,7 +13,6 @@ class ShipController {
         this.configs = configs;
         this.timeSinceLastFire = 0;
         this.timeSinceLastMissileFire = 0;
-        // this.setupBullets();
     }
 
     update() {
@@ -56,39 +55,38 @@ class ShipController {
     fireMissile() {
         if (!this.sprite.alive) return;
 
-        this.initMissileBullet();
+        this.initMissileBullet(new Phaser.Point(0, -1), new Phaser.Point(1, 1));
+        this.initMissileBullet(new Phaser.Point(0, -1), new Phaser.Point(1, -1));
     }
 
-    initMissileBullet() {
+    initMissileBullet(direction, launchDirection) {
       Nakama.missiles.push(
-        new MissileBulletController(
+        new PlayerMissileController(
             this.sprite.position,
-            Nakama.enemies, {
-                bulletSpeed: 500,
-                bulletStrength: 3
-            }
+            direction,
+            launchDirection,
+            this.configs.playerNumber
         ));
     }
 
     fire() {
         if (!this.sprite.alive) return;
 
-        this.initPlayerBulletType1(new Phaser.Point(1, -2.5));
-        this.initPlayerBulletType1(new Phaser.Point(0, -1));
-        this.initPlayerBulletType1(new Phaser.Point(1, -5));
-        this.initPlayerBulletType1(new Phaser.Point(-1, -5));
-        this.initPlayerBulletType1(new Phaser.Point(-1, -2.5));
+        this.initPlayerBullet(new Phaser.Point(1, -2.5));
+        this.initPlayerBullet(new Phaser.Point(0, -1));
+        this.initPlayerBullet(new Phaser.Point(1, -5));
+        this.initPlayerBullet(new Phaser.Point(-1, -5));
+        this.initPlayerBullet(new Phaser.Point(-1, -2.5));
 
 
     }
 
-    initPlayerBulletType1(direction) {
+    initPlayerBullet(direction) {
         new PlayerBulletType1Controller(
             this.sprite.position,
-            direction, {
-                bulletSpeed: 700,
-                bulletStrength: 1
-            });
+            direction,
+            this.configs.playerNumber
+            );
     }
 
     // fire() {

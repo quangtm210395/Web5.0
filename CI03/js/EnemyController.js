@@ -22,10 +22,9 @@ class EnemyController {
       this.timeSinceSpawn += Nakama.game.time.physicsElapsed;
       this.sprite.position.x =
         this.configs.centerX
-        + (this.configs.movementDistance)
+        + (this.configs.movementDistance / 2)
         * Math.sin(
-          (this.timeSinceSpawn / this.configs.tweenTime) *Math.PI * 2 )
-           / 2;
+          (this.timeSinceSpawn / this.configs.tweenTime) *Math.PI * 2 );
 
 
         //fire
@@ -43,10 +42,8 @@ class EnemyController {
             this.sprite.position,
             this.configs.bulletSpriteName,
             new Phaser.Point(0, 1),
-            Nakama.enemyBulletGroup, {
-                bulletSpeed: this.configs.bulletSpeed,
-                bulletStrength : 2
-            }
+            Nakama.enemyBulletGroup,
+            0
         );
     }
 }
