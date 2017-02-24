@@ -31,7 +31,7 @@ class EnemyController {
         if (this.sprite.alive) {
             this.timeSinceLastFire += Nakama.game.time.physicsElapsed;
             if (this.timeSinceLastFire > this.configs.cooldown) {
-                this.fire();
+                // this.fire();
                 this.timeSinceLastFire = 0;
             }
         }

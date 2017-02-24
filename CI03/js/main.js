@@ -119,6 +119,7 @@ var update = function() {
     Nakama.game.physics.arcade.overlap(Nakama.playerBulletGroup, Nakama.enemyGroup, bulletEnemyCollider, null, this);
     Nakama.game.physics.arcade.overlap(Nakama.playerGroup, Nakama.enemyGroup, playerEnemyCollider, null, this);
     Nakama.game.physics.arcade.overlap(Nakama.missileGroup, Nakama.enemyGroup, missileEnemyCollider, null, this);
+    Nakama.game.physics.arcade.collide(Nakama.playerGroup, Nakama.playerGroup, null, null, this);
 
     Nakama.players.forEach(function(player) {
         player.update();
