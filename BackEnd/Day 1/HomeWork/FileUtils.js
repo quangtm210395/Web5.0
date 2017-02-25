@@ -20,18 +20,16 @@ let readfile = function(file, callback) {
 let readFile = function(file, callback) {
     fs.readFile(file, (err, data) => {
         let arr = [];
-        let j = 0;
-        let dataString = data.toString();
-        for (let i = 0; i < dataString.length; i++) {
-            if (dataString.charAt(i) == '\r') {
-                let line = dataString.substring(j, i);
-                arr.push({
-                    key: line.charAt(0),
-                    value: parseInt(line.substring(2, line.length))
-                });
-                j = i + 2;
-            }
-        }
+        let lines = data.toString().split("\n");
+        lines.forEach((line) => {
+          if ( /^[a-zA-Z()]+$/.test(line.charAt(0))){
+            arr.push({
+              key: line.charAt(0),
+              value: parseInt(line.substring(2, line.length))
+            });
+          }
+
+        });
         if (callback !== undefined) callback(err, arr);
     });
 }
