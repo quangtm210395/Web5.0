@@ -17,8 +17,8 @@ let readfile = function(file, callback) {
     if (callback !== undefined) callback(arr);
 }
 
-let readFile = function(file, callback) {
-    fs.readFile(file, (err, data) => {
+let readFile = function(fileName, callback) {
+    fs.readFile(fileName, (err, readData) => {
         let arr = [];
         let lines = data.toString().split("\n");
         lines.forEach((line) => {
