@@ -4,15 +4,14 @@ const bodyParser = require('body-parser');
 
 const router = express.Router();
 
-const HomeController = require('./homeController')
+const HomeController = require('./home-controller');
 
-router.use( (req, res, next) => {
-  console.log('Request Type:', req.method)
-  next()
-})
+router.use(bodyParser.json());
 
 router.get('/', HomeController.getUsers);
 
-router.post('/makeNew', bodyParser.json(), HomeController.createUser);
+router.get('/getUser/:username', HomeController.getUser);
+
+router.post('/makeNew', HomeController.createUser);
 
 module.exports = router;

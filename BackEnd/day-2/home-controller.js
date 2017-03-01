@@ -1,5 +1,15 @@
 const fs = require('fs');
 
+var _isExist = (arr, username) => {
+    let check = -1;
+    arr.forEach((user, i) => {
+        if (user.username == username){
+            check = i;
+        } 
+    });
+    return check;
+}
+
 var _getUsers = (req, res) => {
     fs.readFile(__dirname + '/' + 'users.json', (err, data) => {
         if (err) {
@@ -9,16 +19,6 @@ var _getUsers = (req, res) => {
             res.end(data);
         }
     });
-}
-
-var _isExist = (arr, username) => {
-    let check = -1;
-    arr.forEach((user, i) => {
-        if (user.username == username){
-            check = i;
-        } 
-    });
-    return check;
 }
 
 var _createUser = (req, res) => {
@@ -34,7 +34,7 @@ var _createUser = (req, res) => {
                 dataJSON.users.push(newUser);
             }
             fs.writeFile('users.json', JSON.stringify(dataJSON), (err) => {
-                if (err) throw err;
+                if (err) res.end(err);
             })
 
             res.json(dataJSON);
@@ -42,5 +42,23 @@ var _createUser = (req, res) => {
     });
 }
 
+var _getUser = (req, res) => {
+    fs.readFile(__dirname + '/' + 'users.json', (err, data) => {
+        if (err) {
+            throw err;
+            res.end(err);
+        } else {
+            let dataJSON = JSON.parse(data);
+            username = req.params.username;
+            dataJSON.users.forEach((user, i) => {
+                if(user.username == username) {
+                    res.json(user);
+                }
+            });
+        }
+    });
+}
+
 module.exports.getUsers = _getUsers
+module.exports.getUser = _getUser
 module.exports.createUser = _createUser
