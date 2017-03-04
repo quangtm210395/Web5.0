@@ -14,4 +14,6 @@ router.get('/getUser/:username', HomeController.getUser);
 
 router.post('/createUser', HomeController.createUser);
 
+router.put('/editUser/:username', HomeController.editUser);
+
 module.exports = router;

@@ -59,6 +59,30 @@ var _getUser = (req, res) => {
     });
 }
 
+var _editUser = (req, res) => {
+    fs.readFile('./users.json', (err, data) => {
+        if (err) res.end(err);
+        else {
+            let username = req.params.username;
+            let dataJSON = JSON.parse(data);
+            let newUser = req.body;
+            let i = _isExist(dataJSON.users, username);
+            console.log(i);
+            if (i != -1) {
+                dataJSON.users[i] = newUser;
+            } else {
+                dataJSON.users.push(newUser);
+            }
+            fs.writeFile('users.json', JSON.stringify(dataJSON), (err) => {
+                if (err) res.end(err);
+            })
+
+            res.json(dataJSON);
+        }
+    });
+}
+
 module.exports.getUsers = _getUsers
 module.exports.getUser = _getUser
 module.exports.createUser = _createUser
+module.exports.editUser = _editUser
