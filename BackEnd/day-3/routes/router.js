@@ -10,9 +10,13 @@ router.use(bodyParser.json());
 
 router.get('/', HomeController.getUsers);
 
+router.get('/getUsers', HomeController.getUsers);
+
 router.get('/getUser/:username', HomeController.getUser);
 
 router.post('/createUser', HomeController.createUser);
+
+router.post('/makeSomeUsers', HomeController.makeSomeUsers);
 
 router.put('/editUser/:username', HomeController.editUser);
 

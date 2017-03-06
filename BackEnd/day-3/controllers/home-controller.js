@@ -1,88 +1,101 @@
 const fs = require('fs');
+const mongoose = require('../mongooseConnector');
 
-var _isExist = (arr, username) => {
-    let check = -1;
-    arr.forEach((user, i) => {
-        if (user.username == username){
-            check = i;
-        } 
+var userSchema = new mongoose.Schema({
+    username    : {
+        type: String,
+        required : true,
+        unique : true
+    },
+    password    : {
+        type: String,
+        required : true,
+        select : false
+    },
+    age         : {
+        type: Number,
+        required : true
+    },
+    name        : {
+        type: String,
+        required : true
+    },
+    class       : {
+        type: String,
+        required : true
+    }
+});
+
+var User = mongoose.model('User', userSchema);
+
+var _makeSomeUsers = (req, res) => {
+    fs.readFile("./users.json", (err, data) => {
+        if(err) throw err;
+        else {
+            let dataJSON = JSON.parse(data);
+            dataJSON.users.forEach((user, i) => {
+                newUser = new User(user);
+                newUser.save().then( (doc) => {
+                    console.log(doc);
+                }, (err)=> {
+                    console.log(err);
+                    res.status(400).send('Successful');
+                });
+            });
+            res.status(201).json(dataJSON.users);
+        }
     });
-    return check;
 }
 
 var _getUsers = (req, res) => {
-    fs.readFile(__dirname + '/' + 'users.json', (err, data) => {
-        if (err) {
-            throw err;
-            res.end(err);
-        } else {
-            res.end(data);
-        }
-    });
+    var promise = User.find({}, 
+        {'_id' : 0, '__v' : 0}).exec();
+    promise.then(( users) => {
+        res.json(users);
+    }, (err) => {
+        console.log(err);
+    })
 }
 
 var _createUser = (req, res) => {
-    fs.readFile('./users.json', (err, data) => {
-        if (err) res.end(err);
-        else {
-            let dataJSON = JSON.parse(data);
-            let newUser = req.body;
-            let i = _isExist(dataJSON.users, newUser.username);
-            if (i != -1) {
-                dataJSON.users[i] = newUser;
-            } else {
-                dataJSON.users.push(newUser);
-            }
-            fs.writeFile('users.json', JSON.stringify(dataJSON), (err) => {
-                if (err) res.end(err);
-            })
-
-            res.json(dataJSON);
-        }
-    });
+    let newUser = new User(req.body);
+    var promise = newUser.save();
+    promise.then((doc) => {
+        console.log(doc);
+        res.status(201).send('Create Successful');
+    }, (err) => {
+        console.log(err);
+        res.status(400).send(err);
+    })
 }
 
 var _getUser = (req, res) => {
-    fs.readFile(__dirname + '/' + 'users.json', (err, data) => {
-        if (err) {
-            throw err;
-            res.end(err);
-        } else {
-            let dataJSON = JSON.parse(data);
-            username = req.params.username;
-            dataJSON.users.forEach((user, i) => {
-                if(user.username == username) {
-                    res.json(user);
-                }
-            });
-        }
-    });
+    username = req.params.username;
+    var promise = User.find({username: username}, {'_id' : 0, '__v' : 0}).exec();
+    promise.then((users) => {
+        res.status(200);
+        res.json(users[0]);
+    }, (err) => {
+        console.log(err);
+        res.status(400).send(err);
+    })
 }
 
 var _editUser = (req, res) => {
-    fs.readFile('./users.json', (err, data) => {
-        if (err) res.end(err);
-        else {
-            let username = req.params.username;
-            let dataJSON = JSON.parse(data);
-            let newUser = req.body;
-            let i = _isExist(dataJSON.users, username);
-            console.log(i);
-            if (i != -1) {
-                dataJSON.users[i] = newUser;
-            } else {
-                dataJSON.users.push(newUser);
-            }
-            fs.writeFile('users.json', JSON.stringify(dataJSON), (err) => {
-                if (err) res.end(err);
-            })
-
-            res.json(dataJSON);
-        }
-    });
+    let username = req.params.username;
+    let newUser = req.body;
+    var promise = User.update({username : username}, newUser).exec();
+    promise.then((doc) => {
+        console.log(doc);
+        res.status(202).send('Edit Successful!');
+    }, (err) => {
+        console.log(err);
+        res.status(500).send('Cannot Edit!');
+    })
 }
 
 module.exports.getUsers = _getUsers
 module.exports.getUser = _getUser
 module.exports.createUser = _createUser
 module.exports.editUser = _editUser
+module.exports.makeSomeUsers = _makeSomeUsers
