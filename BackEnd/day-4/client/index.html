@@ -1,5 +1,6 @@
 <!doctype html>
 <html>
+
 <head>
   <title>Đề thi TechKids</title>
   <meta charset="utf-8">
@@ -11,47 +12,44 @@
   <script type="text/javascript" src="libs/jquery.min.js"></script>
   <script type="text/javascript" src="libs/handlebars.js"></script>
   <script type="text/javascript" src="main.js"></script>
-  <script type="text/javascript" src="testJSON.json"></script>
 </head>
+
 <body>
   <script id="template-question-single" type="text/x-handlebars-template">
     <p>{{questionId}}. {{content}}</p>
     <div class="form-group">
       {{#each answers}}
-        <input type="radio" value="{{value}}" name="{{../questionId}}_{{../part}}_{{../section}}_{{../test}}" id="{{../questionId}}_{{../part}}_{{../section}}_{{../test}}_{{@index}}">
-        <label class="answer_label" for="{{../questionId}}_{{../part}}_{{../section}}_{{../test}}_{{@index}}">
+      <input type="radio" value="{{value}}" name="{{../questionId}}_{{../part}}_{{../section}}_{{../test}}" id="{{../questionId}}_{{../part}}_{{../section}}_{{../test}}_{{@index}}">
+      <label class="answer_label" for="{{../questionId}}_{{../part}}_{{../section}}_{{../test}}_{{@index}}">
           {{label}}
-        </label>
-      {{/each}}
+        </label> {{/each}}
     </div>
   </script>
   <script id="template-question-multiple" type="text/x-handlebars-template">
     <p>{{questionId}}. {{content}}</p>
     <div class="form-group">
       {{#each answers}}
-        <input type="checkbox" value="{{value}}" name="{{../questionId}}_{{../part}}_{{../section}}_{{../test}}" id="{{../questionId}}_{{../part}}_{{../section}}_{{../test}}_{{@index}}">
-        <label class="answer_label" for="{{../questionId}}_{{../part}}_{{../section}}_{{../test}}_{{@index}}">
+      <input type="checkbox" value="{{value}}" name="{{../questionId}}_{{../part}}_{{../section}}_{{../test}}" id="{{../questionId}}_{{../part}}_{{../section}}_{{../test}}_{{@index}}">
+      <label class="answer_label" for="{{../questionId}}_{{../part}}_{{../section}}_{{../test}}_{{@index}}">
           {{label}}
-        </label>
-      {{/each}}
+        </label> {{/each}}
     </div>
   </script>
   <script id="template-question-fill" type="text/x-handlebars-template">
     <p>{{questionId}}. {{content}}</p>
     <div class="form-group">
-      <input type="text" class="form-control" name="{{questionId}}_{{part}}_{{section}}_{{test}}" id="{{../questionId}}_{{../part}}_{{../section}}_{{../test}}_{{@index}}" placeholder="Your answer">
+      <input type="text" class="form-control" name="{{questionId}}_{{part}}_{{section}}_{{test}}" id="{{../questionId}}_{{../part}}_{{../section}}_{{../test}}_{{@index}}"
+        placeholder="Your answer">
     </div>
   </script>
   <script id="template-all" type="text/x-handlebars-template">
     {{#each sections}}
-      <h2 class="text-center">SECTION {{id}}: {{purpose}}</h2>
-      <p>{{content}}</p>
-      {{#each parts}}
-        <h5><strong>Part {{id}}: {{purpose}}</strong></h5>
-        <p>{{content}}</p>
-        {{listQuestions questions}}
-      {{/each}}
-    {{/each}}
+    <h2 class="text-center">SECTION {{id}}: {{purpose}}</h2>
+    <p>{{content}}</p>
+    {{#each parts}}
+    <h5><strong>Part {{id}}: {{purpose}}</strong></h5>
+    <p>{{content}}</p>
+    {{listQuestions questions}} {{/each}} {{/each}}
     <button type="submit" class="btn btn-primary">SUBMIT</button>
   </script>
   <section class="container">
@@ -61,4 +59,5 @@
     </div>
   </section>
 </body>
+
 </html>
