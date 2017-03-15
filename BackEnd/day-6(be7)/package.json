@@ -1,0 +1,16 @@
+{
+  "name": "day-6(be7)",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "quangtm",
+  "license": "MIT",
+  "scripts": {
+    "dev": "nodemon --watch ../* server/index.js"
+  },
+  "dependencies": {
+    "body-parser": "^1.17.1",
+    "express": "^4.15.2",
+    "mongoose": "^4.9.0",
+    "nodemon": "^1.11.0"
+  }
+}
