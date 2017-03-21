@@ -7,7 +7,7 @@ config.settingExpress(app);
 
 const routes = require('./routes')(app);
 
-mongoose.connect(config.mongoUrl);
+mongoose.connect(config.mongoUrl, { server: { reconnectTries: Number.MAX_VALUE } });
 
 
 var db = mongoose.connection;

@@ -2,11 +2,11 @@ const express = require('express');
 
 const router = express.Router();
 
-var controller = require('./course.controller');
+var controller = require('./instructor.controller');
 
 router.get('/all', controller.getAll);
 
-router.get('/name/:name', controller.getCourse);
+router.get('/name/:name', controller.getByName);
 
 router.post('/create', controller.create);
 

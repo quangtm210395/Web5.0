@@ -1,0 +1,26 @@
+{
+    "instructors" : [{
+        "name" : "cuong-nguyen",
+        "age" : 25,
+        "img" : "this is img",
+        "description" : "Web - back end developer",
+        "created_by" : "58d09ba8d879f40c0885d232",
+        "courses" : [
+            "58d09f4db3817715402f7109",
+            "58d09ea0411efe201cdbb17e"
+        ]
+
+    },
+    {
+        "name" : "duc-ton",
+        "age" : 25,
+        "img" : "this is img",
+        "description" : "Web - front end developer",
+        "created_by" : "58d09ba8d879f40c0885d232",
+        "courses" : [
+            "58d09f4db3817715402f7109",
+            "58d09ea0411efe201cdbb17e"
+        ]
+
+    }]
+}

@@ -1,26 +1,26 @@
 const mongoose = require('mongoose');
 
-var courseSchema = new mongoose.Schema({
+var instructor = new mongoose.Schema({
     name : {
         type : String,
         required : true,
         unique: true
     },
-    title : String,
+    age : Number,
     img : String,
     description : String,
-    instructors: [{
-        type : mongoose.Schema.Types.ObjectId,
-        ref: 'Instructor'
-    }],
     created_by: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
     },
+    courses: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Course'
+    }],
     isDeleted : {
         type: Boolean,
         default: false
     }
 });
 
-module.exports = mongoose.model('Course', courseSchema);
+module.exports = mongoose.model('Instructor', instructor);

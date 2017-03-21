@@ -3,7 +3,7 @@ const bodyParser = require('body-parser');
 
 module.exports = {
     port : 6969,
-    mongoUrl : 'mongodb://localhost/web5',
+    mongoUrl : 'mongodb://127.0.0.1/web5',
     settingExpress : (app) => {
         app.use(bodyParser.urlencoded({ extended : false}));
 

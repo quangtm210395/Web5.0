@@ -4,48 +4,74 @@ var User = require('./user.model');
 
 module.exports = {
     getAll: (req, res) => {
-        User.find((err, users) => {
-            if (err) throw err;
-            else {
-                res.status(200).json(users);
-            }
-        })
+        User.find({
+                isDeleted: {
+                    $ne: true
+                }
+            }).sort('username')
+            .populate({
+                path: 'created',
+                select: "name _id"
+            })
+            .exec((err, data) => {
+                if (err) {
+                    console.log(err);
+                    res.status(400).json({
+                        status: false,
+                        msg: "Not Found!"
+                    });
+                }
+                res.json(data);
+            });
     },
 
     create: (req, res) => {
         if (req.body) {
             var user = new User(req.body);
-            user.save().then(
-                (insertedUser) => {
-                    console.log("create successful!");
-                    res.status(200).json({
-                        message: "Create successful!",
-                        insertedUser: insertedUser
-                    })
-                }, (err) => {
-                    throw err;
-                    res.status(400).send("Create Failed!");
+            console.log(req.body);
+            user.save((err, user) => {
+                if (err) console.log(err);
+                else {
+                    console.log('create successful!');
+                    res.status(201).json({
+                        status: true,
+                        insertedUser: user
+                    });
                 }
-            );
+            });
         } else {
-            res.status(400).send("Create Failed!");
+            res.status(400).json({
+                status: false,
+                msg: "Cannot create!"
+            });
         }
     },
 
     getUserByUsername: (req, res) => {
-        if (req.body) {
+        if (req.params.username) {
             User.findOne({
-                username: req.params.username
-            }).then(
-                (user) => {
-                    res.status(200).json(user);
-                }, (err) => {
-                    throw err;
-                    res.status(400).send("Not found!");
-                }
-            );
+                    username: req.params.username
+                })
+                .select('-_id')
+                .populate({
+                    path: 'created',
+                    select: "name _id"
+                })
+                .exec((err, data) => {
+                    if (err) {
+                        console.log(err);
+                        res.status(400).json({
+                            status: false,
+                            msg: "Not Found!"
+                        });
+                    }
+                    res.json(data);
+                });
         } else {
-            res.status(400).send("Not Found!");
+            res.status(400).json({
+                status: false,
+                msg: "Not Found!"
+            });
         }
     },
 
@@ -60,46 +86,77 @@ module.exports = {
                     user.name = req.body.name;
                     user.age = req.body.age;
                     user.role = req.body.role;
+                    user.created = req.body.created;
+                    user.created_instructor = req.body.created_instructor;
+                    user.isDeleted = req.body.isDeleted;
                     user.save((err, updatedUser) => {
                         if (err) {
                             throw err;
-                            res.status(400).send('Cannot edit!');
+                            res.status(400).json({
+                                status: false,
+                                msg: 'Update Failed!'
+                            });
                         } else {
                             res.status(200).json({
-                                message: "Edit successful!",
+                                status: true,
+                                msg: "Edit successful!",
                                 updatedUser: updatedUser
                             });
                         }
                     });
                 }, (err) => {
-                    throw err;
-                    res.status(400).send('Cannot Edit!');
+                    console.log(err);
+                    res.status(400).json({
+                        status: false,
+                        msg: 'Cannot Edit!'
+                    });
                 }
             );
         } else {
-            res.status(400).send('Cannot Edit!');
+            res.status(400).json({
+                status: false,
+                msg: 'Please input data to update'
+            });
         }
     },
 
     delete: (req, res) => {
-        User.findOne({
-                username: req.params.username
-            })
-            .then(
-                (user) => {
-                    User.remove({username: user.username}, (err) => {
-                        if (err) {
-                            throw err;
-                            res.status(400).send('Cannot delete!');
-                        } else {
-                            res.status(200).send('Delete successful!');
-                        }
-                    });
-                }, (err) => {
-                    throw err;
-                    res.status(400).send('Cannot delete!');
-                }
-            );
+        if (req.params.username) {
+            User.findOne({
+                    username: req.params.username
+                })
+                .then(
+                    (user) => {
+                        User.remove({
+                            username: user.username
+                        }, (err) => {
+                            if (err) {
+                                console.log(err);
+                                res.status(400).json({
+                                    status: false,
+                                    msg: 'Cannot delete!'
+                                });
+                            } else {
+                                res.status(200).json({
+                                    status: true,
+                                    msg: 'Delete successful!'
+                                });
+                            }
+                        });
+                    }, (err) => {
+                        throw err;
+                        res.status(400).json({
+                            status: false,
+                            msg: 'Cannot delete!'
+                        });
+                    }
+                );
+        } else {
+            res.status(400).json({
+                status: false,
+                msg: "Not Found to delete!"
+            });
+        }
     },
 
     sida: (req, res) => {

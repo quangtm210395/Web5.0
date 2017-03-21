@@ -6,7 +6,7 @@ var controller = require('./user.controller');
 
 router.get('/all', controller.getAll);
 
-router.get('/getByUserName/:username', controller.getUserByUsername);
+router.get('/username/:username', controller.getUserByUsername);
 
 router.post('/sida', controller.sida);
 
