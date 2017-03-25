@@ -7,5 +7,5 @@ module.exports = (app) => {
     app.use('/api/user', userApi);
     app.use('/api/course', courseApi);
     app.use('/api/instructor', instructorApi);
-    app.use('/api/auth', authApi);
+    app.use('/api/login', authApi);
 }

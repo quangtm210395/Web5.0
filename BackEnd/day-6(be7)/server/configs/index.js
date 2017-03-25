@@ -8,5 +8,8 @@ module.exports = {
         app.use(bodyParser.urlencoded({ extended : false}));
 
         app.use(bodyParser.json());
-    }
+    },
+    secret: 'quangtm',
+    roles : ['guess', 'user', 'admin'],
+    permissions: ['view', 'edit', 'create', 'delete']
 }

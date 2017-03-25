@@ -1,19 +1,38 @@
 const express = require('express');
-
 const router = express.Router();
+const compose = require('composable-middleware');
 
 var controller = require('./user.controller');
 
-router.get('/all', controller.getAll);
+var auth = require('../user/auth.service');
 
-router.get('/username/:username', controller.getUserByUsername);
+router.get('/all', compose()
+    .use(auth.authentication)
+    .use(auth.hasRole('admin')),
+    controller.getAll);
+
+router.get('/:username', compose()
+    .use(auth.authentication)
+    .use(auth.hasRole('admin')),
+    controller.getUserByUsername);
 
 router.post('/sida', controller.sida);
 
-router.post('/create', controller.create);
+router.post('/create', compose()
+    .use(auth.authentication)
+    .use(auth.hasRole('admin')), 
+    controller.create);
 
-router.put('/edit', controller.edit);
+router.post('/login', controller.login);
 
-router.delete('/delete/:username', controller.delete);
+router.put('/edit', compose()
+    .use(auth.authentication)
+    .use(auth.hasRole('admin')),
+    controller.edit);
+
+router.delete('/delete/:username', compose()
+    .use(auth.authentication)
+    .use(auth.hasRole('admin')),
+    controller.delete);
 
 module.exports = router;

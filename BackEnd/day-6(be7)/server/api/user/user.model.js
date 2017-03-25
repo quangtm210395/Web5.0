@@ -8,13 +8,23 @@ var userSchema = new mongoose.Schema({
         unique: true,
         required: true
     },
-    password: String,
-    name: String,
-    age: Number,
+    password: {
+        type: String,
+        required: true
+    },
+    name: {
+        type: String,
+        required: true
+    },
+    age: {
+        type: Number,
+        required: true
+    },
     role: {
         type: String,
-        default: 'user'
+        default: 'guess'
     },
+    permission: [],
     created: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Course'

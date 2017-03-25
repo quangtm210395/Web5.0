@@ -1,5 +1,7 @@
 const fs = require('fs');
 const async = require('async');
+const jwt = require('jsonwebtoken');
+const config = require('../../configs');
 
 var Course = require('./course.model');
 var User = require('../user/user.model');
@@ -19,8 +21,9 @@ module.exports = {
 
     create: (req, res) => {
         if (req.body) {
-            var course = new Course(req.body);
-            var promise = course.save();
+            var newCourse = new Course(req.body);
+            newCourse.created_by = req.user._id;
+            var promise = newCourse.save();
             promise.then((course) => {
                 async.parallel({
                     one: (callback) => {
@@ -75,7 +78,10 @@ module.exports = {
                 }, (err, results) => {
                     if (err) {
                         console.log(err);
-
+                        res.status(400).json({
+                            status: false,
+                            msg: err.message
+                        });
                     }
                     console.log('Create successful!');
                     res.status(201).json({
@@ -91,12 +97,12 @@ module.exports = {
                     status: false,
                     msg: "Cannot create!1"
                 });
-            })
+            });
         } else {
             res.status(400).json({
-				status: false,
-				msg: "Cannot create!"
-			});
+                status: false,
+                msg: "Cannot create!"
+            });
         }
     },
 

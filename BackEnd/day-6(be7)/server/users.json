@@ -4,19 +4,27 @@
         "password" : "1234567",
         "name" : "quang",
         "age" : 22,
-        "role": "admin"
+        "role": "admin",
+        "permission" : [
+            {"course" : "delete"},
+            {"instructor" : "delete"}
+        ]
     },
     {
         "username" : "quangtm2",
         "password" : "1234567",
         "name" : "quang2",
         "age" : 22,
-        "role": "user"
+        "role": "user",
+        "permission" : [
+            {"course" : "create"},
+            {"instructor" : "create"}
+        ]
     },{
         "username" : "quangtm3",
         "password" : "1234567",
         "name" : "quang3",
         "age" : 22,
-        "role": "user"
+        "role": "guess"
     }]
 }
