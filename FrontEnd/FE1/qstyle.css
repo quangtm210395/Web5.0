@@ -1,0 +1,49 @@
+p {
+    color: red;
+}
+
+h1 {
+    font-weight: 400;
+}
+
+#top {
+    text-decoration: line-through;
+}
+
+[href] {
+    font-size: 60px;
+}
+
+.center {
+    margin: auto;
+    width: 428px;
+    /*border: 1px solid green;*/
+}
+
+.menu {
+    font-size: 14px;
+    font-weight: bold;
+    display: inline-block;
+}
+
+.menu_vertical {
+    display: block;
+}
+
+
+.menu span {
+    color: #402E2A;
+    background-color:  #D5B0AC;
+    display: inherit;
+    height: 30px;
+    width: 100px;
+    text-align: center;
+    line-height: 2;
+    margin: 2px;
+}
+
+.menu span:hover {
+    background-color: #9CD08F;
+    color: #FFFFFF;
+    cursor: pointer;
+}

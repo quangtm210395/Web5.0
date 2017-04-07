@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="socket.io-client/dist/socket.io.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+    <title>My Chat app</title>
+</head>
+
+<body>
+
+    <p id="serverMess"></p>
+
+    <ul id="listMessage">
+
+    </ul>
+
+    <form action="" id="formSubmit">
+        <input type="text" id="mess">
+    </form>5
+
+    <script>
+        $.get('/allMsg', function (data, status) {
+            data.forEach(function (element) {
+                $('#listMessage').append($('<li>').text(element.content));
+            }, this);
+        })
+        var socket = io.connect('http://localhost:8080');
+        socket.on('news', function (msg) {
+            $('#serverMess').text(msg);
+        });
+
+        socket.on('serverSend', function (data) {
+            $('#listMessage').append($('<li>').text(data));
+        });
+
+        $('#formSubmit').submit(function () {
+            socket.emit('clientSend', $('#mess').val());
+            $('#mess').val('');
+            return false;
+        });
+    </script>
+</body>
+
+</html>
