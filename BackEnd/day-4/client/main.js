@@ -36,14 +36,16 @@ $(document).ready(function () {
   });
 
   $.ajax({
-    url: "/test",
-    dataType: "json"
-  }).done(function (data) {
-    testData = data;
-    $("#content").html(templates.test(data));
-  }).fail(function (err) {
-    console.log(err);
-  });
+      url: "/test",
+      dataType: "json"
+    })
+    .done(function (data) {
+      testData = data;
+      $("#content").html(templates.test(data));
+    })
+    .fail(function (err) {
+      console.log(err);
+    });
 
   $("#content").on('submit', function (e) {
     e.preventDefault();
