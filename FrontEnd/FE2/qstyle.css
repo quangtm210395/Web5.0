@@ -98,6 +98,10 @@ div.sub_menu_vertical_items {
     top: 0;
 }
 
+span {
+    position: relative;
+}
+
 .sub_menu_vertical:hover >.sub_menu_vertical_items {
     display: inline-block;
 }

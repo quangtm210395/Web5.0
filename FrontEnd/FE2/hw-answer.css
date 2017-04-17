@@ -1,0 +1,36 @@
+.menu,
+.menu nav {
+    background: deepskyblue;
+    text-align: center;
+    color: white;
+}
+
+.menu span {
+    display: inline-block;
+    width: 100px;
+    line-height: 30px;
+    background: deepskyblue;
+    font-weight: bold;
+    position: relative;
+}
+
+.menu span:hover {
+    background: teal;
+    color: black;
+    cursor: pointer;
+}
+
+.menu nav  {
+    display: none;
+    position: absolute;
+    width: 100px;
+}
+
+.menu span:hover > nav {
+    display: block;
+}
+
+.menu nav nav {
+    top:0;
+    left: 100%;
+}

@@ -1,0 +1,305 @@
+body {
+    background: #DFDFDF;
+    font-family: Lato, Roboto, sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+a,
+button :hover {
+    cursor: pointer;
+}
+
+nav {
+    width: 100%;
+    box-sizing: content-box;
+    background: white;
+    color: black;
+    display: inline-block;
+    z-index: 50;
+}
+
+nav div {
+    text-align: center;
+}
+
+nav div.img-tks {
+    height: 100%;
+    display: inline-block;
+    width: auto;
+    vertical-align: middle;
+    position: relative;
+    bottom: 5px;
+    margin-top: 15px;
+}
+
+span.techkids {
+    color: #00A0C6;
+    font-family: Lato, Roboto, sans-serif;
+    font-weight: 300;
+    font-size: 2em;
+}
+
+nav div {
+    height: 100%;
+}
+
+nav .form-inline {
+    margin-top: 7px;
+    float: left;
+}
+
+@media screen and (max-width: 768px) {
+    .form-inline .form-control {
+        display: none;
+    }
+}
+
+.form-group-sm .form-control {
+    border-radius: 0px;
+    width: 130px;
+}
+
+.form-control:focus {
+    border-color: #66afe9;
+    outline: 0;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, .6);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, .6);
+}
+
+nav .information {
+    margin-top: 7px;
+    float: right;
+}
+
+nav .information i {
+    padding: 5px;
+    font-size: 20px;
+    color: white;
+    background: #00A0C6;
+    display: inline-block;
+    width: auto;
+    vertical-align: middle;
+}
+
+.information .form-control {
+    border-radius: 0px;
+    margin: 0px;
+    background: white;
+}
+
+section.content {
+    margin-top: 15px;
+}
+
+.content-item {
+    margin-bottom: 15px;
+    width: 100%;
+    background: white;
+    border: 1px solid #DFDFDF;
+    box-shadow: 1px 2px 4px rgba(0, 0, 0, .5);
+}
+
+.content-item .img-content {
+    display: block;
+    box-sizing: inherit;
+    position: relative;
+}
+
+.img-content .functions {
+    display: none;
+}
+
+.img-content:hover .functions {
+    display: inline-block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: rgba(210, 210, 210, 0.4);
+    width: 100%;
+    height: 100%;
+}
+
+.functions {
+    text-align: center;
+    color: white;
+    font-weight: 400;
+}
+
+.functions .plus-func {
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin-top: 30px;
+    margin-left: 30px;
+}
+
+.functions i {
+    padding: 5px;
+    font-size: 18px;
+    color: white;
+    display: block;
+    width: auto;
+    vertical-align: middle;
+}
+
+.plus-func i {
+    font-size: 22px;
+}
+
+.plus-func i:hover {
+    cursor: pointer;
+    color: black;
+    background-color: rgba(210, 210, 210, 0.8);
+}
+
+.functions .view-count {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    margin-left: 30px;
+    margin-bottom: 30px;
+}
+
+.functions .publish-time {
+    display: inline-block;
+    width: auto;
+    position: absolute;
+    bottom: 0;
+    left: 45%;
+    margin-bottom: 30px;
+}
+
+.functions .plus-count {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    margin-right: 30px;
+    margin-bottom: 30px;
+}
+
+.img-content img {
+    width: 100%;
+    height: auto;
+    box-sizing: inherit;
+}
+
+.content-item .description {
+    display: block;
+    box-sizing: inherit;
+}
+
+.description .user-infor {
+    display: inherit;
+    margin: 7% 10%;
+    position: relative;
+}
+
+.user-infor .user-ava {
+    display: inline-block;
+    width: 30%;
+    height: auto;
+    position: relative;
+}
+
+.user-ava img {
+    width: 100%;
+    height: auto;
+    box-sizing: inherit;
+    border-radius: 50%;
+}
+
+.user-detail,
+.description {
+    font-size: 20px;
+}
+
+.user-infor .user-detail {
+    width: 60%;
+    margin-left: 5%;
+    display: inline-block;
+    height: auto;
+    vertical-align: middle;
+}
+
+.user-detail .username {
+    display: block;
+    font-weight: 500;
+    font-family: Roboto, Lato, sans-serif;
+}
+
+.user-detail .user-desc {
+    word-wrap: break-word;
+    position: relative;
+    display: block;
+    font-weight: 300;
+    font-family: Roboto, Lato, sans-serif;
+}
+
+.description .img-desc {
+    padding-left: 10%;
+    padding-right: 10%;
+    padding-bottom: 5%;
+    display: block;
+    font-weight: 700;
+    font-family: Roboto, Lato, sans-serif;
+}
+
+@media screen and (min-width: 768px) {
+    .container {
+        width: 80%;
+    }
+    nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        box-shadow: 1px 2px 4px rgba(0, 0, 0, .5);
+    }
+    section.content {
+        margin-top: 60px;
+    }
+    .fa-search {
+        display: none;
+    }
+    .user-detail,
+    .description {
+        font-size: 14px;
+    }
+    .functions .plus-count {
+        margin-right: 10px;
+        margin-bottom: 10px;
+    }
+    .functions .view-count {
+        margin-left: 10px;
+        margin-bottom: 10px;
+    }
+    .functions .plus-func {
+        margin-top: 10px;
+        margin-left: 10px;
+    }
+    .functions .publish-time {
+        right: 35%;
+        margin-bottom: 10px;
+    }
+}
+
+@media screen and (min-width: 630px) {
+    nav div.img-tks {
+        margin-top: 0;
+    }
+}
+
+@media screen and (max-width: 1199px) {
+    .information .form-control {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .logo {
+        display: none
+    }
+    .information.form-inline {
+        margin-bottom: 7px;
+    }
+}
